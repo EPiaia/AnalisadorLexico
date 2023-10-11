@@ -1,0 +1,36 @@
+.topbar {
+    background-color: purple;
+    color: white;
+    height: 80px;
+    align-items: center;
+}
+
+.add-input {
+    width: 100%;
+    max-width: 200px;
+    margin-bottom: 5px;
+    height: 35px;
+    font-size: 15px;
+}
+
+.add-btn {
+    width: 100%;
+    border-radius: 2px;
+    max-width: 200px;
+}
+
+.words {
+    max-width: 300px;
+    background-color: #7df094;
+    border-radius: 5px;
+}
+
+.words>.header {
+    text-align: center;
+    font-size: 16px;
+    vertical-align: middle;
+}
+
+.added-words {
+    min-height: 50px;
+}
