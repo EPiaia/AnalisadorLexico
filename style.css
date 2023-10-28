@@ -5,12 +5,19 @@
     align-items: center;
 }
 
-.add-input {
+.input {
     width: 100%;
-    max-width: 200px;
     margin-bottom: 5px;
     height: 35px;
     font-size: 15px;
+}
+
+.add-input {
+    max-width: 200px;
+}
+
+.analyser-input {
+    max-width: 400px;
 }
 
 .add-btn {
@@ -33,4 +40,8 @@
 
 .added-words {
     min-height: 50px;
+}
+
+#analysis-status {
+    padding-left: 10px;
 }

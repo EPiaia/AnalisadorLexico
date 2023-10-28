@@ -9,6 +9,42 @@ document.addEventListener("DOMContentLoaded", function () {
     writeRules();
 });
 
+window.addEventListener("load", (event) => {
+    document.getElementById("analyser-input").addEventListener("keyup", (eventKeyup) => {
+        analyseLetter(eventKeyup);
+    });
+});
+
+function analyseLetter(event) {
+    var input = document.getElementById("analyser-input");
+    var span = document.getElementById("analysis-status");
+    var inputValue = input.value;
+    if (inputValue === '' || inputValue === 'undefined') {
+        span.innerText = '';
+        return;
+    }
+
+    const words = inputValue.split(' ');
+    for (let w = 0; w < words.length; w++) {
+        var word = words[w];
+        const letters = word.split('');
+        var currentRule = firstRule;
+        for (let l = 0; l < letters.length; l++) {
+            var letter = letters[l];
+            if (!hasLetter(currentRule, letter)) {
+                span.innerText = "Inválido";
+                return;
+            }
+            currentRule = getLetterRule(currentRule, letter);
+        }
+        if (event.which === 32 && currentRule.description != terminalRule.description && word != 'undefined' && word != '') {
+            span.innerText = "Inválido";
+            return;
+        }
+    }
+    span.innerText = "Válido";
+}
+
 function addWord() {
     var input = document.getElementById("add-word");
     var word = input.value;
@@ -51,10 +87,15 @@ function createRule(word) {
 
     const letters = word.split('');
     var lastRule = firstRule;
+    loop1:
     for (let i = 0; i < letters.length; i++) {
         var letter = letters[i];
-        while (hasLetter(lastRule)) {
+        loop2:
+        // Verifica se possui uma regra para a próxima letra com base na regra atual
+        // Ver para futuramente alterar para verificar as outras letras disponíveis na regra e bater com a atual, a fim de encaixar as regras corretamente
+        while (hasLetter(lastRule, letter)) {
             lastRule = getLetterRule(lastRule, letter);
+            continue loop1;
         }
 
         if (i === (letters.length - 1)) {
@@ -88,9 +129,6 @@ function createRule(word) {
             rules.push(lastRule);
         }
     }
-
-
-    // pegar primeira letra, ver se ja existe regra apontando para proxima letra, se nao existe, se sim usa este, passa para proxima letra até não ter mais letras, onde retorna a regra final (qX* com tudo -)
 }
 
 function isNull(rule) {

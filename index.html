@@ -34,14 +34,14 @@
             <div class="col-3">
                 Adicionar Palavra
                 <br />
-                <input id="add-word" class="add-input" />
+                <input id="add-word" class="add-input input" />
                 <br />
                 <button type="button" class="btn btn-primary add-btn" onclick="addWord()">Adicionar</button>
                 <br />
                 <br />
                 <div class="words">
                     <div class="header">
-                        Dicionário
+                        Tokens
                         <hr />
                     </div>
                     <div id="dictionary"></div>
@@ -49,6 +49,13 @@
             </div>
 
             <div class="col-9">
+                <div id="analyser">
+                    Analisar Palavras
+                    <br />
+                    <input id="analyser-input" class="analyser-input input" />
+                    <span id="analysis-status"></span>
+                </div>
+                <br />
                 <div id="rules"></div>
             </div>
         </div>
