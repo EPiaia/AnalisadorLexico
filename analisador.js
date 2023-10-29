@@ -6,7 +6,7 @@ var firstRule;
 const rulesTableId = "rulesTable";
 
 document.addEventListener("DOMContentLoaded", function () {
-    writeRules();
+    writeRules(null, null, null);
 });
 
 window.addEventListener("load", (event) => {
@@ -16,6 +16,7 @@ window.addEventListener("load", (event) => {
 });
 
 function analyseLetter(event) {
+    writeRules(null, false, null);
     var input = document.getElementById("analyser-input");
     var span = document.getElementById("analysis-status");
     var inputValue = input.value;
@@ -29,20 +30,33 @@ function analyseLetter(event) {
         var word = words[w];
         const letters = word.split('');
         var currentRule = firstRule;
+        var lastRule = null;
         for (let l = 0; l < letters.length; l++) {
             var letter = letters[l];
             if (!hasLetter(currentRule, letter)) {
                 span.innerText = "Inválido";
+                span.className = "invalid";
+                writeRules(currentRule, false, letter);
                 return;
             }
+            lastRule = currentRule;
             currentRule = getLetterRule(currentRule, letter);
         }
         if (event.which === 32 && currentRule.description != terminalRule.description && word != 'undefined' && word != '') {
             span.innerText = "Inválido";
+            span.className = "invalid";
+            var lastWord = words[words.length - 1];
+            var lastLetter = letters[letters.length - 1];
+            writeRules(currentRule, false, lastLetter);
             return;
         }
     }
     span.innerText = "Válido";
+    span.className = "valid";
+    var lastWord = words[words.length - 1];
+    var letters = lastWord.split('');
+    var lastLetter = letters[letters.length - 1];
+    writeRules(lastRule, true, lastLetter);
 }
 
 function addWord() {
@@ -62,7 +76,7 @@ function addWord() {
     writeDictionary();
 
     createRule(word);
-    writeRules();
+    writeRules(null, null, null);
 }
 
 /*
@@ -162,6 +176,15 @@ function ruleDescription(rule, letter) {
     return "-";
 }
 
+function letterNumber(letter) {
+    for (let i = 0; i < alphabet.length; i++) {
+        if (letter === alphabet[i]) {
+            return i;
+        }
+    }
+    return null;
+}
+
 function writeDictionary() {
     var wordsToPrint = "";
     dictionary.forEach(function (item, index) {
@@ -174,7 +197,7 @@ function writeDictionary() {
     htmlDictionary.innerHTML = wordsToPrint;
 }
 
-function writeRules() {
+function writeRules(currentRule, valid, currentLetter) {
     var rulesDiv = document.getElementById("rules");
 
     var existingTable = document.getElementById(rulesTableId);
@@ -216,6 +239,22 @@ function writeRules() {
             } else {
                 var ruleDesc = ruleDescription(rule, alphabet[a]);
                 var cellText = document.createTextNode(ruleDesc);
+                if (currentRule != null) {
+                    var letterNum = letterNumber(currentLetter);
+                    if (rule.description === currentRule.description && letterNum === a) {
+                        if (valid) {
+                            cell.className = "valid-cell";
+                        } else {
+                            cell.className = "invalid-cell";
+                        }
+                    } else if (rule.description === currentRule.description || letterNum === a) {
+                        if (valid) {
+                            cell.className = "light-valid-cell";
+                        } else {
+                            cell.className = "light-invalid-cell";
+                        }
+                    }
+                }
             }
             cell.appendChild(cellText);
             bodyRow.append(cell);

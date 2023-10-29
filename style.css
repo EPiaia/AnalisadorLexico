@@ -45,3 +45,31 @@
 #analysis-status {
     padding-left: 10px;
 }
+
+.valid {
+    color: #038f03;
+    font-weight: bold;
+}
+
+.invalid {
+    color: red;
+    font-weight: bold;
+}
+
+.valid-cell {
+    background-color: green !important;
+    color: white;
+}
+
+.invalid-cell {
+    background-color: red !important;
+    color: white;
+}
+
+.light-valid-cell {
+    background-color: #74eb74 !important;
+}
+
+.light-invalid-cell {
+    background-color: #eb5a5a !important;
+}
