@@ -33,6 +33,12 @@ function analyseLetter(event) {
         var lastRule = null;
         for (let l = 0; l < letters.length; l++) {
             var letter = letters[l];
+            if (!alphabet.includes(letter)) {
+                span.innerText = "Inválido";
+                span.className = "invalid";
+                writeRules(null, false, null);
+                return;
+            }
             if (!hasLetter(currentRule, letter)) {
                 span.innerText = "Inválido";
                 span.className = "invalid";
@@ -66,6 +72,11 @@ function addWord() {
         return;
     }
 
+    if (!isWordValid(word)) {
+        alert('A palavra deve conter apenas letras que estão no alfabeto');
+        return;
+    }
+
     input.value = "";
 
     if (dictionary.includes(word)) {
@@ -77,6 +88,16 @@ function addWord() {
 
     createRule(word);
     writeRules(null, null, null);
+}
+
+function isWordValid(word) {
+    for (let i = 0; i < word.length; i++) {
+        var letter = word[i];
+        if (!alphabet.includes(letter)) {
+            return false;
+        }
+    }
+    return true;
 }
 
 /*
