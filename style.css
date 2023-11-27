@@ -73,3 +73,9 @@
 .light-invalid-cell {
     background-color: #eb5a5a !important;
 }
+
+.reset-button {
+    width: 100%;
+    max-width: 300px;
+    border-radius: 2px;
+}

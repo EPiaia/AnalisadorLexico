@@ -90,6 +90,21 @@ function addWord() {
     writeRules(null, null, null);
 }
 
+function reset() {
+    clearArray(rules);
+    terminalRule = undefined;
+    firstRule = undefined;
+    clearArray(dictionary);
+    writeDictionary();
+    writeRules(null, null, null);
+}
+
+function clearArray(arr) {
+    while (arr.length > 0) {
+        arr.pop();
+    }
+}
+
 function isWordValid(word) {
     for (let i = 0; i < word.length; i++) {
         var letter = word[i];
